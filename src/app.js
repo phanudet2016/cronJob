@@ -53,7 +53,7 @@ app.get('/posts', (req, res) => {
   )
   setTimeout(() => {
     for (let i = 0; i < showdata.length; i++) {
-      console.log(showdata[i].idLend)
+      console.log(showdata[i].dateCheckReturn)
      }
   },5000)
   
