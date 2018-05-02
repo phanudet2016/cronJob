@@ -9,6 +9,12 @@ app.use(bodyParser.json())
 app.use(cors())
 
 app.get('/posts', (req, res) => {
-  console.log('hello 555')
+  res.send(
+    [{
+      title: "Hello World!",
+      description: "Hi there! How are you?"
+    }]
+  )
+  console.log('hello cron')
 })
 app.listen(process.env.PORT || 8081)
