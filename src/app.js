@@ -21,31 +21,46 @@ var config = {
 };
 firebase.initializeApp(config);
 var showdata = []
-var equipments = firebase.database().ref('equipments')
+var historys = firebase.database().ref('history')
 
-equipments.on('child_added', function (snapshot) {
+historys.on('child_changed', function (snapshot) { 
+  let data = snapshot.val()
+  data.id = snapshot.key
+  var key = snapshot.key
+  var index = showdata.findIndex(history => history.id === key)
+  showdata.splice(index,1)
+  showdata.push(data)
+})
+
+historys.on('child_removed', function (snapshot) {
+    var id = snapshot.key
+    var index = showdata.findIndex(history => history.id === id)
+    showdata.splice(index,1)
+})
+
+historys.on('child_added', function (snapshot) {
   let item = snapshot.val()
   item.id = snapshot.key
   showdata.push(item)
 })
 
-setTimeout(() => {
-  console.log(showdata[1].amountEqm)
-},3000)
-
-
-/* app.get('/posts', (req, res) => {
+app.get('/posts', (req, res) => {
   res.send(
     [{
       title: "Hello World!",
       description: "Hi there! How are you?"
     }]
   )
+  setTimeout(() => {
+    for (let i = 0; i < showdata.length; i++) {
+      console.log(showdata[i].idLend)
+     }
+  },5000)
+  
   // sendEmail()
-  console.log('hello cron')
 })
 
-function sendEmail() {
+/*function sendEmail() {
   // sendEmail
   let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -74,5 +89,5 @@ function sendEmail() {
       console.log("The message was sent!");
       console.log(info);
   })
-}
-app.listen(process.env.PORT || 8081) */
+} */
+app.listen(process.env.PORT || 8081)
