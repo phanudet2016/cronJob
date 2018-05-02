@@ -2,21 +2,46 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
+const firebase = require('firebase')
 var nodemailer = require('nodemailer')
+
 
 const app = express()
 app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors())
 
-app.get('/posts', (req, res) => {
+var config = {
+  apiKey: "AIzaSyCnkwco1-0ZiC82eVmgsfhPYvF2ZrvEpZk",
+  authDomain: "projectospital.firebaseapp.com",
+  databaseURL: "https://projectospital.firebaseio.com",
+  projectId: "projectospital",
+  storageBucket: "projectospital.appspot.com",
+  messagingSenderId: "969365951070"
+};
+firebase.initializeApp(config);
+var showdata = []
+var equipments = firebase.database().ref('equipments')
+
+equipments.on('child_added', function (snapshot) {
+  let item = snapshot.val()
+  item.id = snapshot.key
+  showdata.push(item)
+})
+
+setTimeout(() => {
+  console.log(showdata[1].amountEqm)
+},3000)
+
+
+/* app.get('/posts', (req, res) => {
   res.send(
     [{
       title: "Hello World!",
       description: "Hi there! How are you?"
     }]
   )
-  sendEmail()
+  // sendEmail()
   console.log('hello cron')
 })
 
@@ -50,4 +75,4 @@ function sendEmail() {
       console.log(info);
   })
 }
-app.listen(process.env.PORT || 8081)
+app.listen(process.env.PORT || 8081) */
