@@ -15,6 +15,6 @@ app.get('/posts', (req, res) => {
       description: "Hi there! How are you?"
     }]
   )
+  console.log('hello 555')
 })
-console.log('hello 555')
 app.listen(process.env.PORT || 8081)
