@@ -24,6 +24,7 @@ firebase.initializeApp(config);
 var showdata = []
 var historys = firebase.database().ref('history')
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 historys.on('child_changed', function (snapshot) { 
   let data = snapshot.val()
   data.id = snapshot.key
@@ -44,6 +45,7 @@ historys.on('child_added', function (snapshot) {
   item.id = snapshot.key
   showdata.push(item)
 })
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.get('/posts', (req, res) => {
   res.send(
@@ -52,23 +54,46 @@ app.get('/posts', (req, res) => {
       description: "Hi there! How are you?"
     }]
   )
-  sendEmail()
-  // var now = new Date()
-  // var date = dateFormat(now, "m/d/yyyy")
-  // console.log(new Date('5/3/2018').getTime())
-  // console.log(new Date('5/8/2018').getTime())
-  // console.log(new Date('5/8/2018').getTime() - 432000000)
-  // console.log(new Date(date).getTime())
-  // setTimeout(() => {
-  //   for (let i = 0; i < showdata.length; i++) {
-  //     console.log(showdata[i].dateCheckReturn)
-  //    }
-  // },5000)
+  // วันที่ปัจจุบัน
+  let now = new Date()
+  let date = dateFormat(now, "m/d/yyyy")
+  let dateNow = new Date(date).getTime()
+  // วันที่คืน
+  // let dateCheck = new Date('5/8/2018').getTime()
+  // แจ้งเตือนก่อน วัน
+  // let dateSendNoti = new Date(dateCheck).getTime() - 432000000
+
+  setTimeout(() => {
+    for (let i = 0; i < showdata.length; i++) {
+      let dateCheck = new Date(showdata[i].dateCheckReturn).getTime()
+      let dateSendNotiFive = new Date(dateCheck).getTime() - 432000000 // set วันที่แจ้งเตือนก่อน 5 วัน
+      let dateSendNotiOne = new Date(dateCheck).getTime() - 86400000 // set วันที่แจ้งเตือนก่อน 1 วัน
+      if (dateNow === dateSendNotiFive || dateNow === dateSendNotiOne) {
+        let email = showdata[i].email
+        let idLend = showdata[i].idLend
+        let firstname = showdata[i].firstname
+        let lastname = showdata[i].lastname
+        let department = showdata[i].department
+        let nameEqm = showdata[i].nameEqm
+        let dateReturn = showdata[i].dateCheckReturn
+
+        let HelperOptions = {
+          from: '"ADMIN_HOSPITAL" <admin_hospital@admin.com>',
+          to: email,
+          subject: 'แจ้งกำหนดการคืนอุปกรณ์ทางการแพทย์',
+          html: 'เรียนคุณ ' + firstname + ' ' + lastname + '<br>' + ' แผนก ' + department + '<br><br>' + 'เลขที่การยืม ' + idLend + '<br>' + nameEqm + ' ครบกำหนดการคืนในวันที่ ' + dateReturn + ' กรุณานำอุปกรณ์มาส่งคืนภายในวันที่กำหนด'
+        };
+        sendEmail(HelperOptions)
+      } else { 
+        console.log('GG') 
+      }
+     }
+  },5000)
   
   // sendEmail()
 })
 
-function sendEmail() {
+function sendEmail(HelperOptions) {
   // sendEmail
   let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -83,12 +108,12 @@ function sendEmail() {
     }
   });
   
-  let HelperOptions = {
-    from: '"Beer" <5706021622141@fitm.kmutnb.ac.th>',
-    to: 'panudach_beer_2012@hotmail.co.th',
-    subject: '555',
-    text: 'GGGG'
-  };
+  // let HelperOptions = {
+  //   from: '"Beer" <5706021622141@fitm.kmutnb.ac.th>',
+  //   to: 'panudach_beer_2012@hotmail.co.th',
+  //   subject: '555',
+  //   text: 'GGGG'
+  // };
   
   transporter.sendMail(HelperOptions, (error, info) => {
       if (error) {
