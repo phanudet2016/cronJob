@@ -4,6 +4,7 @@ const cors = require('cors')
 const morgan = require('morgan')
 const firebase = require('firebase')
 var nodemailer = require('nodemailer')
+var dateFormat = require('dateformat')
 
 
 const app = express()
@@ -51,16 +52,23 @@ app.get('/posts', (req, res) => {
       description: "Hi there! How are you?"
     }]
   )
-  setTimeout(() => {
-    for (let i = 0; i < showdata.length; i++) {
-      console.log(showdata[i].dateCheckReturn)
-     }
-  },5000)
+  sendEmail()
+  // var now = new Date()
+  // var date = dateFormat(now, "m/d/yyyy")
+  // console.log(new Date('5/3/2018').getTime())
+  // console.log(new Date('5/8/2018').getTime())
+  // console.log(new Date('5/8/2018').getTime() - 432000000)
+  // console.log(new Date(date).getTime())
+  // setTimeout(() => {
+  //   for (let i = 0; i < showdata.length; i++) {
+  //     console.log(showdata[i].dateCheckReturn)
+  //    }
+  // },5000)
   
   // sendEmail()
 })
 
-/*function sendEmail() {
+function sendEmail() {
   // sendEmail
   let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -89,5 +97,5 @@ app.get('/posts', (req, res) => {
       console.log("The message was sent!");
       console.log(info);
   })
-} */
+}
 app.listen(process.env.PORT || 8081)
