@@ -135,9 +135,6 @@ app.get('/posts', (req, res) => {
           subject: 'แจ้งกำหนดการคืนอุปกรณ์ทางการแพทย์',
           html: 'เรียนคุณ ' + firstname + ' ' + lastname + '<br>' + ' แผนก ' + department + '<br><br>' + 'เลขที่การยืม ' + idLend + '<br>' + nameEqm + ' ครบกำหนดการคืนในวันที่ ' + dateReturn + ' กรุณานำอุปกรณ์มาส่งคืนภายในวันที่กำหนด'
         };
-        // if (showdata[i].status === 'ถูกยืม') {
-        //   sendEmail(HelperOptions)
-        // }
         if (showdata[i].status === 'ถูกยืม') {
           for (let j = 0; j < showdata[i].returnedDate.length; j++) {
             if (showdata[i].returnedDate[j].status === 'ยังไม่ส่งคืน') {
