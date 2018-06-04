@@ -165,10 +165,16 @@ app.get('/posts', (req, res) => {
      }
      // แจ้งเตือนส่งซ่อมไปยัง ADMID
      for (let i = 0; i < showdataEqm.length; i++) {
+       // แจ้งเตือนส่งซ่อม
       let dateCheckRepairAM = new Date(showdataEqm[i].dateCheckRepair).getTime()
       let dateSendRepairNotiFiveAM = new Date(dateCheckRepairAM).getTime() - 432000000 // set วันที่แจ้งเตือนก่อน 5 วัน
       let dateSendRepairNotiThreeAM = new Date(dateCheckRepairAM).getTime() - 259200000 // set วันที่แจ้งเตือนก่อน 3 วัน
       let dateSendRepairNotiOneAM = new Date(dateCheckRepairAM).getTime() - 86400000 // set วันที่แจ้งเตือนก่อน 1 วัน
+      // แจ้งเตือนตรวจเช็คความเรียบร้อย
+      let dateCheckCalibrateAM = new Date(showdataEqm[i].dateCheckCalibrate).getTime()
+      let dateSendCalibrateNotiFiveAM = new Date(dateCheckCalibrateAM).getTime() - 432000000 // set วันที่แจ้งเตือนก่อน 5 วัน
+      let dateSendCalibrateNotiThreeAM = new Date(dateCheckCalibrateAM).getTime() - 259200000 // set วันที่แจ้งเตือนก่อน 3 วัน
+      let dateSendCalibrateNotiOneAM = new Date(dateCheckCalibrateAM).getTime() - 86400000 // set วันที่แจ้งเตือนก่อน 1 วัน
 
       if (dateNow === dateSendRepairNotiFiveAM || dateNow === dateSendRepairNotiThreeAM || dateNow === dateSendRepairNotiOneAM) {
         let nameEqmRepairAM  = showdataEqm[i].nameEqm
@@ -185,7 +191,29 @@ app.get('/posts', (req, res) => {
               from: '"ADMIN_HOSPITAL" <admin_hospital@admin.com>',
               to: emailAm,
               subject: 'แจ้งกำหนดการซ่อมบำรุงและตรวจเช็คความเรียบร้อยของอุปกรณ์',
-              html: 'เรียนคุณ ' + firstnameRepairAm + ' ' + lastnameRepairAM + '<br>' + ' แผนก ' + departmentAM + '<br><br>' + nameEqmRepairAM + ' ถึงเวลาที่ต้องซ่อมบำรุงและตรวจเช็คความเรียบร้อยของอุปกรณ์ในวันที่ ' + dateReturnRepairAM + ' กรุณานำอุปกรณ์ส่งซ่อมบำรุงและตรวจเช็คความเรียบร้อยของอุปกรร์ด้วย'
+              html: 'เรียนคุณ ' + firstnameRepairAm + ' ' + lastnameRepairAM + '<br>' + ' แผนก ' + departmentAM + '<br><br>' + nameEqmRepairAM + ' ถึงเวลาที่ต้องซ่อมบำรุงอุปกรณ์ (Maintenance) ในวันที่ ' + dateReturnRepairAM + ' กรุณานำอุปกรณ์ส่งซ่อมบำรุงและตรวจเช็คความเรียบร้อยของอุปกรร์ด้วย'
+            };
+            sendMailRepair(HelperOptions)
+          }
+        }
+      }
+
+      if (dateNow === dateSendCalibrateNotiFiveAM || dateNow === dateSendCalibrateNotiThreeAM || dateNow === dateSendCalibrateNotiOneAM) {
+        let nameEqmCalibrateAM  = showdataEqm[i].nameEqm
+        let dateReturnCalibrateAM  = showdataEqm[i].dateCheckCalibrate
+
+        for (let j = 0; j < showdataUser.length; j++) {
+          if (showdataUser[j].status === 'admin') {
+            let emailAm = showdataUser[j].email
+            let firstnameCalibrateAm = showdataUser[j].firstname
+            let lastnameCalibrateAM = showdataUser[j].lastname   
+            let departmentAM = showdataUser[j].department
+
+            let HelperOptions = {
+              from: '"ADMIN_HOSPITAL" <admin_hospital@admin.com>',
+              to: emailAm,
+              subject: 'แจ้งกำหนดการซ่อมบำรุงและตรวจเช็คความเรียบร้อยของอุปกรณ์',
+              html: 'เรียนคุณ ' + firstnameCalibrateAm + ' ' + lastnameCalibrateAM + '<br>' + ' แผนก ' + departmentAM + '<br><br>' + nameEqmCalibrateAM + ' ถึงเวลาที่ต้องตรวจเช็คความเรียบร้อยของอุปกรณ์ (Calibration) ในวันที่ ' + dateReturnCalibrateAM + ' กรุณานำอุปกรณ์ส่งซ่อมบำรุงและตรวจเช็คความเรียบร้อยของอุปกรร์ด้วย'
             };
             sendMailRepair(HelperOptions)
           }
