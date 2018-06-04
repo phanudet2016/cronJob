@@ -139,11 +139,12 @@ app.get('/posts', (req, res) => {
         //   sendEmail(HelperOptions)
         // }
         if (showdata[i].status === 'ถูกยืม') {
-          for (let j = 0; j < showdata[i].returnedDate.length; j++) {
-            if (showdata[i].returnedDate[j].status === 'ส่งคืนแล้ว') {
-              console.log('yea', idLend)
-            }
-          }
+          // for (let j = 0; j < showdata[i].returnedDate.length; j++) {
+          //   if (showdata[i].returnedDate[j].status === 'ส่งคืนแล้ว') {
+          //     console.log('yea', idLend)
+          //   }
+          // }
+          console.log('yea')
         }
       }
       // แจ้งเตือนส่งซ่อม
