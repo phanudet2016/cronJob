@@ -119,7 +119,7 @@ app.get('/posts', (req, res) => {
       let dateSendRepairNotiThree = new Date(dateCheckRepair).getTime() - 259200000 // set วันที่แจ้งเตือนก่อน 3 วัน
       let dateSendRepairNotiOne = new Date(dateCheckRepair).getTime() - 86400000 // set วันที่แจ้งเตือนก่อน 1 วัน
 
-      let dateCheckCalibrate= new Date(showdata[i].dateCheckCalibrate).getTime()
+      let dateCheckCalibrate = new Date(showdata[i].dateCheckCalibrate).getTime()
       let dateSendCalibrateNotiFive = new Date(dateCheckCalibrate).getTime() - 432000000 // set วันที่แจ้งเตือนก่อน 5 วัน
       let dateSendCalibrateNotiThree = new Date(dateCheckCalibrate).getTime() - 259200000 // set วันที่แจ้งเตือนก่อน 3 วัน
       let dateSendCalibrateNotiOne = new Date(dateCheckCalibrate).getTime() - 86400000 // set วันที่แจ้งเตือนก่อน 1 วัน
@@ -181,7 +181,7 @@ app.get('/posts', (req, res) => {
         let lastnameCalibrate = showdata[i].lastname
         let departmentCalibrate = showdata[i].department
         let nameEqmCalibrate = showdata[i].nameEqm
-        let dateReturnCalibrate = showdata[i].dateCheckRepair
+        let dateReturnCalibrate = showdata[i].dateCheckCalibrate
 
         let HelperOptions = {
           from: '"ADMIN_HOSPITAL" <admin_hospital@admin.com>',
