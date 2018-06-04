@@ -139,7 +139,9 @@ app.get('/posts', (req, res) => {
         //   sendEmail(HelperOptions)
         // }
         for (let j = 0; j < showdata[i].returnedDate.length; j++) {
-          console.log('GGT')  
+          if (showdata[i].returnedDate[j].status === 'ส่งคืนแล้ว') {
+            console.log('yea', idLend)
+          }
         }
       }
       // แจ้งเตือนส่งซ่อม
