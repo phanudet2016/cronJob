@@ -128,7 +128,6 @@ app.get('/posts', (req, res) => {
         let department = showdata[i].department
         let nameEqm = showdata[i].nameEqm
         let dateReturn = showdata[i].dateCheckReturn
-        let arrayCheckSend = showdata[i].returnedDate
 
         let HelperOptions = {
           from: '"ADMIN_HOSPITAL" <admin_hospital@admin.com>',
@@ -136,9 +135,11 @@ app.get('/posts', (req, res) => {
           subject: 'แจ้งกำหนดการคืนอุปกรณ์ทางการแพทย์',
           html: 'เรียนคุณ ' + firstname + ' ' + lastname + '<br>' + ' แผนก ' + department + '<br><br>' + 'เลขที่การยืม ' + idLend + '<br>' + nameEqm + ' ครบกำหนดการคืนในวันที่ ' + dateReturn + ' กรุณานำอุปกรณ์มาส่งคืนภายในวันที่กำหนด'
         };
-        }
+        // if (showdata[i].status === 'ถูกยืม') {
+        //   sendEmail(HelperOptions)
+        // }
         for (let j = 0; j < showdata[i].returnedDate.length; j++) {
-          console.log('GTT')
+          console.log('GGT')  
         }
       }
       // แจ้งเตือนส่งซ่อม
