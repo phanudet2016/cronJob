@@ -157,10 +157,17 @@ app.get('/posts', (req, res) => {
         let HelperOptions = {
           from: '"ADMIN_HOSPITAL" <admin_hospital@admin.com>',
           to: emailRepair,
-          subject: 'แจ้งกำหนดการซ่อมบำรุงและตรวจเช็คความเรียบร้อยของอุปกรณ์',
-          html: 'เรียนคุณ ' + firstnameRepair + ' ' + lastnameRepair + '<br>' + ' แผนก ' + departmentRepair + '<br><br>' + 'เลขที่การยืม ' + idLendRepair + '<br>' + nameEqmRepair + ' ถึงเวลาที่ต้องซ่อมบำรุงและตรวจเช็คความเรียบร้อยของอุปกรณ์ในวันที่ ' + dateReturnRepair + ' กรุณานำอุปกรณ์มาส่งคืนภายในวันที่กำหนด'
+          subject: 'แจ้งกำหนดการซ่อมบำรุงของอุปกรณ์ (Maintenance)',
+          html: 'เรียนคุณ ' + firstnameRepair + ' ' + lastnameRepair + '<br>' + ' แผนก ' + departmentRepair + '<br><br>' + 'เลขที่การยืม ' + idLendRepair + '<br>' + nameEqmRepair + ' ถึงเวลาที่ต้องซ่อมบำรุงอุปกรณ์ (Maintenance) ในวันที่ ' + dateReturnRepair + ' กรุณานำอุปกรณ์มาส่งคืนภายในวันที่กำหนด'
         };
-        sendEmail(HelperOptions)
+        if (showdata[i].status === 'ถูกยืม') {
+          for (let j = 0; j < showdata[i].returnedDate.length; j++) {
+            if (showdata[i].returnedDate[j].status === 'ยังไม่ส่งคืน') {
+              sendEmail(HelperOptions)
+              break
+            }
+          }
+        }
       }
      }
      // แจ้งเตือนส่งซ่อมไปยัง ADMID
@@ -190,8 +197,8 @@ app.get('/posts', (req, res) => {
             let HelperOptions = {
               from: '"ADMIN_HOSPITAL" <admin_hospital@admin.com>',
               to: emailAm,
-              subject: 'แจ้งกำหนดการซ่อมบำรุงและตรวจเช็คความเรียบร้อยของอุปกรณ์',
-              html: 'เรียนคุณ ' + firstnameRepairAm + ' ' + lastnameRepairAM + '<br>' + ' แผนก ' + departmentAM + '<br><br>' + nameEqmRepairAM + ' ถึงเวลาที่ต้องซ่อมบำรุงอุปกรณ์ (Maintenance) ในวันที่ ' + dateReturnRepairAM + ' กรุณานำอุปกรณ์ส่งซ่อมบำรุงและตรวจเช็คความเรียบร้อยของอุปกรร์ด้วย'
+              subject: 'แจ้งกำหนดการซ่อมบำรุงของอุปกรณ์ (Maintenance)',
+              html: 'เรียนคุณ ' + firstnameRepairAm + ' ' + lastnameRepairAM + '<br>' + ' แผนก ' + departmentAM + '<br><br>' + nameEqmRepairAM + ' ถึงเวลาที่ต้องซ่อมบำรุงอุปกรณ์ (Maintenance) ในวันที่ ' + dateReturnRepairAM + ' กรุณานำอุปกรณ์ส่งซ่อมบำรุงด้วย'
             };
             sendMailRepair(HelperOptions)
           }
@@ -212,8 +219,8 @@ app.get('/posts', (req, res) => {
             let HelperOptions = {
               from: '"ADMIN_HOSPITAL" <admin_hospital@admin.com>',
               to: emailAm,
-              subject: 'แจ้งกำหนดการซ่อมบำรุงและตรวจเช็คความเรียบร้อยของอุปกรณ์',
-              html: 'เรียนคุณ ' + firstnameCalibrateAm + ' ' + lastnameCalibrateAM + '<br>' + ' แผนก ' + departmentAM + '<br><br>' + nameEqmCalibrateAM + ' ถึงเวลาที่ต้องตรวจเช็คความเรียบร้อยของอุปกรณ์ (Calibration) ในวันที่ ' + dateReturnCalibrateAM + ' กรุณานำอุปกรณ์ส่งซ่อมบำรุงและตรวจเช็คความเรียบร้อยของอุปกรร์ด้วย'
+              subject: 'แจ้งกำหนดการตรวจเช็คความเรียบร้อยของอุปกรณ์ (Calibration)',
+              html: 'เรียนคุณ ' + firstnameCalibrateAm + ' ' + lastnameCalibrateAM + '<br>' + ' แผนก ' + departmentAM + '<br><br>' + nameEqmCalibrateAM + ' ถึงเวลาที่ต้องตรวจเช็คความเรียบร้อยของอุปกรณ์ (Calibration) ในวันที่ ' + dateReturnCalibrateAM + ' กรุณานำอุปกรณ์ตรวจเช็คความเรียบร้อยของอุปกรร์ด้วย'
             };
             sendMailRepair(HelperOptions)
           }
