@@ -142,6 +142,7 @@ app.get('/posts', (req, res) => {
           for (let j = 0; j < showdata[i].returnedDate.length; j++) {
             if (showdata[i].returnedDate[j].status === 'ยังไม่ส่งคืน') {
               sendEmail(HelperOptions)
+              break
             }
           }
         }
