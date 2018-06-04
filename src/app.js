@@ -137,10 +137,8 @@ app.get('/posts', (req, res) => {
           html: 'เรียนคุณ ' + firstname + ' ' + lastname + '<br>' + ' แผนก ' + department + '<br><br>' + 'เลขที่การยืม ' + idLend + '<br>' + nameEqm + ' ครบกำหนดการคืนในวันที่ ' + dateReturn + ' กรุณานำอุปกรณ์มาส่งคืนภายในวันที่กำหนด'
         };
         }
-        for (let j = 0; j < arrayCheckSend.length; j++) {
-          if (arrayCheckSend[j].status === 'ยังไม่ส่งคืน') {
-            sendEmail(HelperOptions)
-            break
+        for (let j = 0; j < showdata[i].returnedDate.length; j++) {
+          console.log('GTT')
         }
       }
       // แจ้งเตือนส่งซ่อม
