@@ -113,12 +113,16 @@ app.get('/posts', (req, res) => {
       let dateSendNotiFive = new Date(dateCheck).getTime() - 432000000 // set วันที่แจ้งเตือนก่อน 5 วัน
       let dateSendNotiThree = new Date(dateCheck).getTime() - 259200000 // set วันที่แจ้งเตือนก่อน 3 วัน
       let dateSendNotiOne = new Date(dateCheck).getTime() - 86400000 // set วันที่แจ้งเตือนก่อน 1 วัน
-      // แจ้งเตือนส่งซ่อม
+
       let dateCheckRepair = new Date(showdata[i].dateCheckRepair).getTime()
       let dateSendRepairNotiFive = new Date(dateCheckRepair).getTime() - 432000000 // set วันที่แจ้งเตือนก่อน 5 วัน
       let dateSendRepairNotiThree = new Date(dateCheckRepair).getTime() - 259200000 // set วันที่แจ้งเตือนก่อน 3 วัน
       let dateSendRepairNotiOne = new Date(dateCheckRepair).getTime() - 86400000 // set วันที่แจ้งเตือนก่อน 1 วัน
-      console.log(555)
+
+      let dateCheckCalibrate= new Date(showdata[i].dateCheckCalibrate).getTime()
+      let dateSendCalibrateNotiFive = new Date(dateCheckCalibrate).getTime() - 432000000 // set วันที่แจ้งเตือนก่อน 5 วัน
+      let dateSendCalibrateNotiThree = new Date(dateCheckCalibrate).getTime() - 259200000 // set วันที่แจ้งเตือนก่อน 3 วัน
+      let dateSendCalibrateNotiOne = new Date(dateCheckCalibrate).getTime() - 86400000 // set วันที่แจ้งเตือนก่อน 1 วัน
       // แจ้งเตือนส่งคืนจากผู้ยืม
       if (dateNow === dateSendNotiFive || dateNow === dateSendNotiOne || dateNow === dateSendNotiThree) {
         let email = showdata[i].email
@@ -144,7 +148,7 @@ app.get('/posts', (req, res) => {
           }
         }
       }
-      // แจ้งเตือนส่งซ่อม
+      // แจ้งเตือนส่งซ่อม /////////////////////////////////////////////////////////////////////////////////////////////////////////////
       if (dateNow === dateSendRepairNotiFive || dateNow === dateSendRepairNotiThree || dateNow === dateSendRepairNotiOne) {
         let emailRepair = showdata[i].email
         let idLendRepair = showdata[i].idLend
@@ -169,6 +173,31 @@ app.get('/posts', (req, res) => {
           }
         }
       }
+      // แจ้งเตือนตรวจเช็คความเรียบร้อย ////////////////////////////////////////////////////////////////////////////////////////////////////
+      if (dateNow === dateSendCalibrateNotiFive || dateNow === dateSendCalibrateNotiOne || dateNow === dateSendCalibrateNotiThree) {
+        let emailCalibrate = showdata[i].email
+        let idLendCalibrate = showdata[i].idLend
+        let firstnameCalibrate = showdata[i].firstname
+        let lastnameCalibrate = showdata[i].lastname
+        let departmentCalibrate = showdata[i].department
+        let nameEqmCalibrate = showdata[i].nameEqm
+        let dateReturnCalibrate = showdata[i].dateCheckRepair
+
+        let HelperOptions = {
+          from: '"ADMIN_HOSPITAL" <admin_hospital@admin.com>',
+          to: emailCalibrate,
+          subject: 'แจ้งกำหนดการตรวจเช็คความเรียบร้อยของอุปกรณ์ (Calibration)',
+          html: 'เรียนคุณ ' + firstnameCalibrate + ' ' + lastnameCalibrate + '<br>' + ' แผนก ' + departmentCalibrate + '<br><br>' + 'เลขที่การยืม ' + idLendCalibrate + '<br>' + nameEqmCalibrate + ' ถึงเวลาที่ต้องตรวจเช็คความเรียบร้อยของอุปกรณ์ (Calibration) ในวันที่ ' + dateReturnCalibrate + ' กรุณานำอุปกรณ์มาส่งคืนภายในวันที่กำหนด'
+        };
+        if (showdata[i].status === 'ถูกยืม') {
+          for (let j = 0; j < showdata[i].returnedDate.length; j++) {
+            if (showdata[i].returnedDate[j].status === 'ยังไม่ส่งคืน') {
+              sendEmail(HelperOptions)
+              break
+            }
+          }
+        }
+      }
      }
      // แจ้งเตือนส่งซ่อมไปยัง ADMID
      for (let i = 0; i < showdataEqm.length; i++) {
@@ -182,7 +211,7 @@ app.get('/posts', (req, res) => {
       let dateSendCalibrateNotiFiveAM = new Date(dateCheckCalibrateAM).getTime() - 432000000 // set วันที่แจ้งเตือนก่อน 5 วัน
       let dateSendCalibrateNotiThreeAM = new Date(dateCheckCalibrateAM).getTime() - 259200000 // set วันที่แจ้งเตือนก่อน 3 วัน
       let dateSendCalibrateNotiOneAM = new Date(dateCheckCalibrateAM).getTime() - 86400000 // set วันที่แจ้งเตือนก่อน 1 วัน
-
+      // แจ้งเตือนส่งซ่อม ADMID //////////////////////////////////////////////////////////////////////////////////////////////////////////////
       if (dateNow === dateSendRepairNotiFiveAM || dateNow === dateSendRepairNotiThreeAM || dateNow === dateSendRepairNotiOneAM) {
         let nameEqmRepairAM  = showdataEqm[i].nameEqm
         let dateReturnRepairAM  = showdataEqm[i].dateCheckRepair
@@ -204,7 +233,7 @@ app.get('/posts', (req, res) => {
           }
         }
       }
-
+      // แจ้งเตือนตรวจเช็คความเรียบร้อย ADMID /////////////////////////////////////////////////////////////////////////////////////////////////////
       if (dateNow === dateSendCalibrateNotiFiveAM || dateNow === dateSendCalibrateNotiThreeAM || dateNow === dateSendCalibrateNotiOneAM) {
         let nameEqmCalibrateAM  = showdataEqm[i].nameEqm
         let dateReturnCalibrateAM  = showdataEqm[i].dateCheckCalibrate
