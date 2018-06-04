@@ -128,6 +128,7 @@ app.get('/posts', (req, res) => {
         let department = showdata[i].department
         let nameEqm = showdata[i].nameEqm
         let dateReturn = showdata[i].dateCheckReturn
+        let arrayCheckSend = showdata[i].returnedDate
 
         let HelperOptions = {
           from: '"ADMIN_HOSPITAL" <admin_hospital@admin.com>',
@@ -136,8 +137,8 @@ app.get('/posts', (req, res) => {
           html: 'เรียนคุณ ' + firstname + ' ' + lastname + '<br>' + ' แผนก ' + department + '<br><br>' + 'เลขที่การยืม ' + idLend + '<br>' + nameEqm + ' ครบกำหนดการคืนในวันที่ ' + dateReturn + ' กรุณานำอุปกรณ์มาส่งคืนภายในวันที่กำหนด'
         };
         }
-        for (let j = 0; j < showdata[i].returnedDate.length; j++) {
-          if (showdata[i].returnedDate[j].status === 'ยังไม่ส่งคืน') {
+        for (let j = 0; j < arrayCheckSend.length; j++) {
+          if (arrayCheckSend[j].status === 'ยังไม่ส่งคืน') {
             sendEmail(HelperOptions)
             break
         }
