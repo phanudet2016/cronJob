@@ -118,7 +118,7 @@ app.get('/posts', (req, res) => {
       let dateSendRepairNotiFive = new Date(dateCheckRepair).getTime() - 432000000 // set วันที่แจ้งเตือนก่อน 5 วัน
       let dateSendRepairNotiThree = new Date(dateCheckRepair).getTime() - 259200000 // set วันที่แจ้งเตือนก่อน 3 วัน
       let dateSendRepairNotiOne = new Date(dateCheckRepair).getTime() - 86400000 // set วันที่แจ้งเตือนก่อน 1 วัน
-
+      console.log(555)
       // แจ้งเตือนส่งคืนจากผู้ยืม
       if (dateNow === dateSendNotiFive || dateNow === dateSendNotiOne || dateNow === dateSendNotiThree) {
         let email = showdata[i].email
@@ -220,7 +220,7 @@ app.get('/posts', (req, res) => {
               from: '"ADMIN_HOSPITAL" <admin_hospital@admin.com>',
               to: emailAm,
               subject: 'แจ้งกำหนดการตรวจเช็คความเรียบร้อยของอุปกรณ์ (Calibration)',
-              html: 'เรียนคุณ ' + firstnameCalibrateAm + ' ' + lastnameCalibrateAM + '<br>' + ' แผนก ' + departmentAM + '<br><br>' + nameEqmCalibrateAM + ' ถึงเวลาที่ต้องตรวจเช็คความเรียบร้อยของอุปกรณ์ (Calibration) ในวันที่ ' + dateReturnCalibrateAM + ' กรุณานำอุปกรณ์ตรวจเช็คความเรียบร้อยของอุปกรร์ด้วย'
+              html: 'เรียนคุณ ' + firstnameCalibrateAm + ' ' + lastnameCalibrateAM + '<br>' + ' แผนก ' + departmentAM + '<br><br>' + nameEqmCalibrateAM + ' ถึงเวลาที่ต้องตรวจเช็คความเรียบร้อยของอุปกรณ์ (Calibration) ในวันที่ ' + dateReturnCalibrateAM + ' กรุณานำอุปกรณ์ตรวจเช็คความเรียบร้อยของอุปกรณ์ด้วย'
             };
             sendMailRepair(HelperOptions)
           }
