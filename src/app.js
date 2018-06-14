@@ -123,6 +123,14 @@ app.get('/posts', (req, res) => {
       let dateSendCalibrateNotiFive = new Date(dateCheckCalibrate).getTime() - 432000000 // set วันที่แจ้งเตือนก่อน 5 วัน
       let dateSendCalibrateNotiThree = new Date(dateCheckCalibrate).getTime() - 259200000 // set วันที่แจ้งเตือนก่อน 3 วัน
       let dateSendCalibrateNotiOne = new Date(dateCheckCalibrate).getTime() - 86400000 // set วันที่แจ้งเตือนก่อน 1 วัน
+      
+      let today = dateFormat(new Date(), "yyyy-mm-dd")
+      let todayTs = new Date(today).getTime()
+      let timeLengthTs = new Date(showdata[i].timeLengthTs).getTime()
+      // แจ้งเตือน overdue
+      if (timeLengthTs > todayTs) {
+        console.log(showdata[i].idLend, 'YAHOO')
+      }
       // แจ้งเตือนส่งคืนจากผู้ยืม
       if (dateNow === dateSendNotiFive || dateNow === dateSendNotiOne || dateNow === dateSendNotiThree) {
         let email = showdata[i].email
